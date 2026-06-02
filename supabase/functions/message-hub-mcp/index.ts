@@ -30,6 +30,17 @@ function makeSupabaseClient() {
   return createClient(url, key);
 }
 
+// PostgREST `.or()` filters are raw, comma/dot/paren-delimited strings. Any
+// value interpolated into one must be a bare identifier, else a caller could
+// inject extra filter conditions (e.g. broaden their read scope past the
+// conclave they asked for). Conclave/agent names are simple slugs, so reject
+// anything outside [A-Za-z0-9_-].
+function assertSafeIdentifier(value: string, field: string): void {
+  if (typeof value !== "string" || !/^[A-Za-z0-9_-]+$/.test(value)) {
+    throw new Error(`Invalid ${field}: must match [A-Za-z0-9_-]+`);
+  }
+}
+
 function jsonResponse(body: unknown, status = 200): Response {
   return new Response(JSON.stringify(body), {
     status,
@@ -132,6 +143,7 @@ async function handleSend(args: Record<string, unknown>): Promise<string> {
 async function handlePoll(args: Record<string, unknown>): Promise<string> {
   const supabase = makeSupabaseClient();
   const conclave = args.conclave as string;
+  assertSafeIdentifier(conclave, "conclave");
   const since = args.since as string | undefined;
   const includeBroadcast = args.include_broadcast !== false;
 
@@ -174,6 +186,7 @@ async function handlePoll(args: Record<string, unknown>): Promise<string> {
 async function handleSearch(args: Record<string, unknown>): Promise<string> {
   const supabase = makeSupabaseClient();
   const conclave = args.conclave as string;
+  assertSafeIdentifier(conclave, "conclave");
   const since = args.since as string;
   const fromConclave = args.from_conclave as string | undefined;
   const fromAgent = args.from_agent as string | undefined;
