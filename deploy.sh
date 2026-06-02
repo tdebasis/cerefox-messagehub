@@ -7,7 +7,7 @@
 #   - The cerefox Supabase project ref + a direct Postgres URL.
 #
 # Env (or pass inline):
-#   CEREFOX_PROJECT_REF   Supabase project ref (e.g. nbjemizeqstvvxtabubu)
+#   CEREFOX_PROJECT_REF   Supabase project ref (e.g. abcdefghijklmnopqrst)
 #   CEREFOX_DATABASE_URL  Direct Postgres connection string (for the migration)
 #
 # The edge function reads SUPABASE_URL + SUPABASE_SERVICE_ROLE_KEY, which
