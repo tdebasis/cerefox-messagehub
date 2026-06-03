@@ -39,8 +39,8 @@ if [ "$DO_MIG" = 1 ]; then
 fi
 
 if [ "$DO_FN" = 1 ]; then
-  echo "→ Deploying edge function message-hub-mcp to project $CEREFOX_PROJECT_REF…"
+  echo "→ Deploying edge function message-hub-mcp to project ${CEREFOX_PROJECT_REF}…"
   supabase functions deploy message-hub-mcp --project-ref "$CEREFOX_PROJECT_REF"
 fi
 
-echo "✓ Done. Verify: curl -s https://$CEREFOX_PROJECT_REF.supabase.co/functions/v1/message-hub-mcp/version"
+echo "✓ Done. Verify: curl -s https://${CEREFOX_PROJECT_REF}.supabase.co/functions/v1/message-hub-mcp/version"
